@@ -117,6 +117,7 @@
         <br/>
         <select name="lang" id="lang">
             <option value="JCR-SQL2"${lang == 'JCR-SQL2' ? 'selected="selected"' : ''}>JCR-SQL2</option>
+            <option value="JCR-SQL2-xt"${lang == 'JCR-SQL2-xt' ? 'selected="selected"' : ''}>JCR-SQL2-xt</option>
             <option value="xpath"${lang == 'xpath' ? 'selected="selected"' : ''}>XPath</option>
             <option value="sql"${lang == 'sql' ? 'selected="selected"' : ''}>SQL</option>
         </select>
@@ -195,18 +196,18 @@
                try {
                    jcrSession.checkout(target.getParent());
                    target.remove();
-                  
+
                    count++;
                    if (count % maxBatch == 0 && it.hasNext()) {
                        jcrSession.save();
                        System.out.println(count + " nodes deleted. Continuing deletion...");
-                   }                   
+                   }
                } catch (Exception e) {
                    e.printStackTrace();
                }
            }
            jcrSession.save();
-           System.out.println(count + " nodes deleted. Finished deletion.");           
+           System.out.println(count + " nodes deleted. Finished deletion.");
            pageContext.setAttribute("deletedCount", Integer.valueOf(count));
        } catch (ItemNotFoundException e) {
            // not found
@@ -265,14 +266,14 @@
             pageContext.setAttribute("count", JCRContentUtils.size(result.getRows()));
             String countColumnName = null;
             String spellCheckColumnName = null;
-            
+
             for (String columnName : result.getColumnNames()) {
                 if (columnName.startsWith("rep:count(")) {
                     countColumnName = columnName;
                     break;
                 } else if (columnName.startsWith("rep:spellcheck(")) {
                     spellCheckColumnName = columnName;
-                    break;                                    
+                    break;
                 } else if (columnName.startsWith("rep:facet(")) {
                     pageContext.setAttribute("hasFacets", true);
                     pageContext.setAttribute("result", result);
@@ -283,9 +284,9 @@
                 pageContext.setAttribute("countColumnName", countColumnName);
                 pageContext.setAttribute("countResult", result.getRows().nextRow().getValue(countColumnName).getLong());
             } else if (spellCheckColumnName != null) {
-                pageContext.setAttribute("spellCheckColumnName", spellCheckColumnName);            
+                pageContext.setAttribute("spellCheckColumnName", spellCheckColumnName);
                 pageContext.setAttribute("selectorNames", new String[]{spellCheckColumnName});
-                pageContext.setAttribute("rows", result.getRows());            
+                pageContext.setAttribute("rows", result.getRows());
             } else if (result.getSelectorNames().length == 1) {
                 pageContext.setAttribute("nodes", result.getNodes());
             } else {
@@ -350,7 +351,7 @@
                                 </li>
                             </c:forEach>
                         </ul>
-                    </c:forEach>                    
+                    </c:forEach>
                     <c:forEach items="${result.facetQuery}" var="facetValue" varStatus="iterationStatus">
                         <c:if test="${iterationStatus.first}">
                             <ul>
@@ -453,10 +454,10 @@
                                     <c:choose>
                                     <c:when test="${selectorName == spellCheckColumnName}">
                                         <% Value value = ((Row) pageContext.getAttribute("row")).getValue((String)pageContext.getAttribute("spellCheckColumnName")); %>
-                                        <strong>Suggestion: </strong><%=value != null ? value.getString() : "No suggestions" %>                                    
+                                        <strong>Suggestion: </strong><%=value != null ? value.getString() : "No suggestions" %>
                                         <br/>
                                     </c:when>
-                                    <c:otherwise>                                
+                                    <c:otherwise>
                                     <c:set var="node" value="${row.nodes[selectorName]}"/>
                                     <a title="Open in JCR Browser"
                                        href="<c:url value='jcrBrowser.jsp?uuid=${node.identifier}&workspace=${workspace}&showProperties=true'/>"
@@ -490,7 +491,7 @@
                                         <br/>
                                     </c:if>
                                     </c:otherwise>
-                                    </c:choose>                                    
+                                    </c:choose>
                                 </c:forEach>
                             </li>
                         </c:forEach>
