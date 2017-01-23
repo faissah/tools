@@ -117,7 +117,7 @@
         <br/>
         <select name="lang" id="lang">
             <option value="JCR-SQL2"${lang == 'JCR-SQL2' ? 'selected="selected"' : ''}>JCR-SQL2</option>
-            <option value="JCR-SQL2-xt"${lang == 'JCR-SQL2-xt' ? 'selected="selected"' : ''}>JCR-SQL2-xt</option>
+            <option value="JCR-SQL2-dx"${lang == 'JCR-SQL2-dx' ? 'selected="selected"' : ''}>JCR-SQL2-dx</option>
             <option value="xpath"${lang == 'xpath' ? 'selected="selected"' : ''}>XPath</option>
             <option value="sql"${lang == 'sql' ? 'selected="selected"' : ''}>SQL</option>
         </select>
